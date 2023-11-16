@@ -25,13 +25,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   void signIn(
     WidgetRef ref,
   ) {
-    ref.read(authControllerProvider.notifier).siginWithEmail(
+    ref.read(authControllerProvider.notifier).sigUpWithEmail(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
         context: context);
   }
 
-  void logeIn(
+  void logIn(
     WidgetRef ref,
   ) {
     ref.read(authControllerProvider.notifier).loginWithEmail(
@@ -98,13 +98,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                            border: Border(
-                                bottom: _index == 1
-                                    ? BorderSide(
-                                        width: 1.5,
-                                        color: Theme.of(context).primaryColor)
-                                    : const BorderSide(
-                                        color: Colors.transparent))),
+                          border: Border(
+                            bottom: _index == 1
+                                ? BorderSide(
+                                    width: 1.5,
+                                    color: Theme.of(context).primaryColor)
+                                : const BorderSide(color: Colors.transparent),
+                          ),
+                        ),
                         child: Text(
                           'Sing-up',
                           style: Theme.of(context)
@@ -163,7 +164,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,
               ),
-              onPressed: _index == 0 ? () => logeIn(ref) : () => signIn(ref),
+              onPressed: _index == 0 ? () => logIn(ref) : () => signIn(ref),
               child: Text(
                 _index == 0 ? 'Login' : 'Sign-up',
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(

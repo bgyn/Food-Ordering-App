@@ -37,7 +37,7 @@ class AuthController extends StateNotifier<bool> {
     return _authRepository.getUserData(uid);
   }
 
-  void siginWithEmail(
+  void sigUpWithEmail(
       {required String email,
       required String password,
       required BuildContext context}) async {
@@ -58,7 +58,7 @@ class AuthController extends StateNotifier<bool> {
       required String password,
       required BuildContext context}) async {
     state = true;
-    final user = await _authRepository.loginInWithEmail(
+    final user = await _authRepository.loginWithEmail(
       email: email,
       password: password,
     );
@@ -70,6 +70,6 @@ class AuthController extends StateNotifier<bool> {
   }
 
   void logOut() {
-    _authRepository.logOUt();
+    _authRepository.logOut();
   }
 }

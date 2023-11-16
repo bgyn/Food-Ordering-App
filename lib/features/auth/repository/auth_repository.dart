@@ -72,7 +72,7 @@ class AuthRepository {
     }
   }
 
-  FutureEither<UserModel> loginInWithEmail({
+  FutureEither<UserModel> loginWithEmail({
     required String email,
     required String password,
   }) async {
@@ -99,7 +99,7 @@ class AuthRepository {
     }
   }
 
-  void logOUt() async {
+  void logOut() async {
     await _firebaseAuth.signOut();
   }
 }
