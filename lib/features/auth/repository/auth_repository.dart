@@ -9,8 +9,8 @@ import 'package:food_app/model/user_model.dart';
 import 'package:fpdart/fpdart.dart';
 
 final authRepositoryProvider = Provider((ref) => AuthRepository(
-      firebaseAuth: ref.read(firebaseAuth),
-      firebaseFirestore: ref.read(firebaseFirestore),
+      firebaseAuth: ref.read(firebaseAuthProvider),
+      firebaseFirestore: ref.read(firebaseFirestoreProvider),
     ));
 
 class AuthRepository {

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';import 'package:food_app/features/auth/screen/login_screen.dart';
-import 'package:food_app/features/home/screen/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:food_app/features/auth/screen/login_screen.dart';
+import 'package:food_app/features/home/screen/bottom_nav.dart';
 import 'package:routemaster/routemaster.dart';
 
 //loged out route
@@ -15,7 +16,7 @@ final logedOutRoute = RouteMap(
 final logedInRoute = RouteMap(
   routes: {
     '/': (_) => const MaterialPage(
-          child: HomeScreen(),
+          child: BottomNav(),
         ),
   },
 );

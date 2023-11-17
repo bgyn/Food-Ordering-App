@@ -7,7 +7,6 @@ class ThemePallete {
   static var defaultAppTheme = ThemeData.light().copyWith(
     primaryColor: blueColor,
     scaffoldBackgroundColor: greyColor,
-    useMaterial3: true,
     textTheme: const TextTheme(
       titleLarge: TextStyle(
         fontFamily: 'NunitoBold',
