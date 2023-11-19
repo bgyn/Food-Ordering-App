@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_app/core/common/loader.dart';
 import 'package:food_app/model/product_model.dart';
 
 class ProductCard extends ConsumerWidget {
@@ -23,21 +24,21 @@ class ProductCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                  height: 130,
-                  width: 130,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(75),
-                  ),
-                  child: CachedNetworkImage(
-                    imageUrl: _product.image,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) {
-                      return const CircularProgressIndicator();
-                    },
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  )),
+                height: 130,
+                width: 130,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(75),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: _product.image,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) {
+                    return const Loader();
+                  },
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
               Text(
                 _product.name,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_app/features/home/repository/product_repository.dart';
+import 'package:food_app/features/product/respsitory/product_repository.dart';
 import 'package:food_app/model/product_model.dart';
 
 final productControllerProvider =
@@ -10,7 +10,12 @@ final productControllerProvider =
 );
 
 final productListProvider = StreamProvider.autoDispose(
-    (ref) => ref.read(productControllerProvider.notifier).fetchAllProduct());
+    (ref) => ref.watch(productControllerProvider.notifier).fetchAllProduct());
+
+final searchProductProvider = StreamProvider.family((ref, String query) {
+  final productController = ref.watch(productControllerProvider.notifier);
+  return productController.searchProduct(query);
+});
 
 class ProductController extends StateNotifier<bool> {
   final ProductRepository _productRepository;
@@ -20,5 +25,9 @@ class ProductController extends StateNotifier<bool> {
 
   Stream<List<Product>> fetchAllProduct() {
     return _productRepository.fetchAllProduct();
+  }
+
+  Stream<List<Product>> searchProduct(String query) {
+    return _productRepository.searchProduct(query);
   }
 }

@@ -1,27 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_app/features/home/delegates/search_product_delegates.dart';
 
-class CustomSearchBar extends StatelessWidget {
+class CustomSearchBar extends ConsumerWidget {
   final searchController = TextEditingController();
   CustomSearchBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: searchController,
-      cursorColor: Colors.blue.shade700,
-      style: const TextStyle(color: Colors.black),
-      decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.search),
-        filled: true,
-        fillColor: Colors.grey.shade200,
-        hintText: 'Search',
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide(color: Colors.blue.shade700)),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return InkWell(
+      child: Container(
+        height: 60,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Row(
+          children: [
+            SizedBox(
+              width: 20,
+            ),
+            Icon(Icons.search),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              "Search",
+              style: TextStyle(color: Colors.grey, fontSize: 18),
+            ),
+          ],
+        ),
       ),
+      onTap: () {
+        showSearch(
+            context: context, delegate: SearchProductDelegates(ref: ref));
+      },
     );
   }
 }

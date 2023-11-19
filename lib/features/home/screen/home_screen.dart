@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/error_text.dart';
 import 'package:food_app/core/common/loader.dart';
-import 'package:food_app/features/home/controller/product_controller.dart';
+import 'package:food_app/features/product/controller/product_controller.dart';
 import 'package:food_app/features/home/widget/custom_scrollable_menu.dart';
 import 'package:food_app/features/home/widget/custom_search_bar.dart';
 import 'package:food_app/features/home/widget/product_card.dart';
@@ -36,7 +36,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         const CustomScrollableMenu(),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
         Center(
             child: GestureDetector(
