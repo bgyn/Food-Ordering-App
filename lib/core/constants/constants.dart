@@ -9,9 +9,11 @@ const widgetList = [
 ];
 
 const menuList = [
-  'Foods',
-  'Snacks',
+  'Food',
   'Drinks',
   'Burger',
-  'Sauces',
+  'Sausages',
+  'Mo:Mo',
+  'Pizza',
+  'Pasta',
 ];

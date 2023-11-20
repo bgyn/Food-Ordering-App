@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/error_text.dart';
 import 'package:food_app/core/common/loader.dart';
+import 'package:food_app/core/constants/constants.dart';
 import 'package:food_app/features/product/controller/product_controller.dart';
 import 'package:food_app/features/home/widget/custom_scrollable_menu.dart';
 import 'package:food_app/features/home/widget/custom_search_bar.dart';
@@ -51,25 +52,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         const SizedBox(
           height: 20,
         ),
-        LimitedBox(
-          maxHeight: 260,
-          child: ref.watch(productListProvider).when(
-                data: (data) {
-                  return ListView.builder(
-                    itemCount: data.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return ProductCard(product: data[index]);
-                    },
-                  );
-                },
-                error: (error, errorStack) {
-                  return ErrorText(
-                    text: error.toString(),
-                  );
-                },
-                loading: () => const Loader(),
-              ),
+        Consumer(
+          builder: (context, ref, child) {
+            final productIndex = ref.watch(indexProvider);
+            return LimitedBox(
+              maxHeight: 260,
+              child:
+                  ref.watch(productListProvider(menuList[productIndex])).when(
+                        data: (data) {
+                          return ListView.builder(
+                            itemCount: data.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return ProductCard(product: data[index]);
+                            },
+                          );
+                        },
+                        error: (error, errorStack) {
+                          return ErrorText(
+                            text: error.toString(),
+                          );
+                        },
+                        loading: () => const Loader(),
+                      ),
+            );
+          },
         ),
       ],
     );

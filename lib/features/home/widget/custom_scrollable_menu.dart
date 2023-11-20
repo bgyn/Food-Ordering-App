@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/constants/constants.dart';
+import 'package:food_app/features/product/controller/product_controller.dart';
 
 final indexProvider = StateProvider<int>((ref) => 0);
 
 class CustomScrollableMenu extends ConsumerWidget {
   const CustomScrollableMenu({super.key});
+
+  void filterProduct({required String query, required WidgetRef ref}) {
+    ref.read(productListProvider(query));
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,6 +24,7 @@ class CustomScrollableMenu extends ConsumerWidget {
           return GestureDetector(
             onTap: () {
               ref.read(indexProvider.notifier).update((state) => index);
+              filterProduct(query: e, ref: ref);
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),

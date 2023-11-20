@@ -10,7 +10,7 @@ class SearchProductDelegates extends SearchDelegate<Product> {
 
   @override
   TextStyle get searchFieldStyle =>
-      const TextStyle(color: Colors.grey, fontSize: 16);
+      const TextStyle(color: Colors.black, fontSize: 16);
 
   @override
   List<Widget>? buildActions(BuildContext context) {

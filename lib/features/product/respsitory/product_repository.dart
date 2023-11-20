@@ -18,12 +18,15 @@ class ProductRepository {
   CollectionReference get _product =>
       _firebaseFirestore.collection(FirebaseConstants.productCollection);
 
-  Stream<List<Product>> fetchAllProduct() {
-    return _product.snapshots().map(
-          (event) => event.docs
-              .map((e) => Product.fromMap(e.data() as Map<String, dynamic>))
-              .toList(),
-        );
+  Stream<List<Product>> fetchAllProduct({required String query}) {
+    return _product
+        .where('category', isEqualTo: query)
+        .snapshots()
+        .map((event) {
+      return event.docs
+          .map((e) => Product.fromMap(e.data() as Map<String, dynamic>))
+          .toList();
+    });
   }
 
   Stream<List<Product>> searchProduct(String query) {
