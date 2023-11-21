@@ -9,13 +9,19 @@ final productControllerProvider =
   ),
 );
 
-final productListProvider = StreamProvider.family((ref, String query) => ref
-    .watch(productControllerProvider.notifier)
-    .fetchAllProduct(query: query));
+final productListProvider = StreamProvider.autoDispose.family(
+    (ref, String query) => ref
+        .watch(productControllerProvider.notifier)
+        .fetchAllProduct(query: query));
 
 final searchProductProvider = StreamProvider.family((ref, String query) {
   final productController = ref.watch(productControllerProvider.notifier);
   return productController.searchProduct(query);
+});
+
+final getProductByIdProvider = StreamProvider.family((ref, String pid) {
+  final productController = ref.watch(productControllerProvider.notifier);
+  return productController.getProductById(pid);
 });
 
 class ProductController extends StateNotifier<bool> {
@@ -30,5 +36,9 @@ class ProductController extends StateNotifier<bool> {
 
   Stream<List<Product>> searchProduct(String query) {
     return _productRepository.searchProduct(query);
+  }
+
+  Stream<Product> getProductById(String pid) {
+    return _productRepository.getProductById(pid);
   }
 }

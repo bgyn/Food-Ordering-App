@@ -3,16 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/loader.dart';
 import 'package:food_app/model/product_model.dart';
+import 'package:routemaster/routemaster.dart';
 
 class ProductCard extends ConsumerWidget {
   final Product _product;
   const ProductCard({super.key, required Product product}) : _product = product;
 
+  void navigateToProductDetailScreen(String pid, BuildContext context) {
+    Routemaster.of(context).push('/product-detail/$pid');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width * 1;
     return GestureDetector(
-      onTap: () {},
+      onTap: () => navigateToProductDetailScreen(_product.pid, context),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),
         width: width * 0.6,

@@ -48,4 +48,11 @@ class ProductRepository {
       return searchlist;
     });
   }
+
+  Stream<Product> getProductById(String pid) {
+    return _product
+        .doc(pid)
+        .snapshots()
+        .map((event) => Product.fromMap(event.data() as Map<String, dynamic>));
+  }
 }

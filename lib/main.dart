@@ -44,27 +44,28 @@ class _MyAppState extends ConsumerState<MyApp> {
           data: (data) {
             if (data != null) {
               return FutureBuilder(
-                  future: getData(ref, data.uid),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Loader();
-                    }
-                    return MaterialApp.router(
-                      title: 'Food App',
-                      debugShowCheckedModeBanner: false,
-                      theme: ThemePallete.defaultAppTheme,
-                      routeInformationParser: const RoutemasterParser(),
-                      routerDelegate: RoutemasterDelegate(
-                        routesBuilder: (context) {
-                          if (snapshot.hasData) {
-                            return logedInRoute;
-                          } else {
-                            return logedOutRoute;
-                          }
-                        },
-                      ),
-                    );
-                  });
+                future: getData(ref, data.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Loader();
+                  }
+                  return MaterialApp.router(
+                    title: 'Food App',
+                    debugShowCheckedModeBanner: false,
+                    theme: ThemePallete.defaultAppTheme,
+                    routeInformationParser: const RoutemasterParser(),
+                    routerDelegate: RoutemasterDelegate(
+                      routesBuilder: (context) {
+                        if (snapshot.hasData) {
+                          return logedInRoute;
+                        } else {
+                          return logedOutRoute;
+                        }
+                      },
+                    ),
+                  );
+                },
+              );
             } else {
               return MaterialApp.router(
                 debugShowCheckedModeBanner: false,

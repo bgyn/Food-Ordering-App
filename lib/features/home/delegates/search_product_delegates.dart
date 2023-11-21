@@ -3,10 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/error_text.dart';
 import 'package:food_app/features/product/controller/product_controller.dart';
 import 'package:food_app/model/product_model.dart';
+import 'package:routemaster/routemaster.dart';
 
 class SearchProductDelegates extends SearchDelegate<Product> {
   final WidgetRef _ref;
   SearchProductDelegates({required WidgetRef ref}) : _ref = ref;
+
+  void navigateToProductDetailScreen(String pid, BuildContext context) {
+    Routemaster.of(context).push('/product-detail/$pid');
+  }
 
   @override
   TextStyle get searchFieldStyle =>
@@ -45,7 +50,8 @@ class SearchProductDelegates extends SearchDelegate<Product> {
                   ),
                   title: Text(product.name),
                   subtitle: Text(product.price.toString()),
-                  onTap: () {},
+                  onTap: () =>
+                      navigateToProductDetailScreen(product.pid, context),
                 );
               },
             );
@@ -74,7 +80,8 @@ class SearchProductDelegates extends SearchDelegate<Product> {
                   ),
                   title: Text(product.name),
                   subtitle: Text(product.price.toString()),
-                  onTap: () {},
+                  onTap: () =>
+                      navigateToProductDetailScreen(product.pid, context),
                 );
               },
             );
