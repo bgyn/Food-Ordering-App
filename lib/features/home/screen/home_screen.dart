@@ -7,6 +7,7 @@ import 'package:food_app/features/product/controller/product_controller.dart';
 import 'package:food_app/features/home/widget/custom_scrollable_menu.dart';
 import 'package:food_app/features/home/widget/custom_search_bar.dart';
 import 'package:food_app/features/home/widget/product_card.dart';
+import 'package:routemaster/routemaster.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -16,6 +17,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  void navigateToSeeMore(BuildContext context) {
+    Routemaster.of(context).push('/see-more');
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -41,7 +46,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         Center(
             child: GestureDetector(
-                onTap: () {},
+                onTap: () => navigateToSeeMore(context),
                 child: Text(
                   'see more',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(

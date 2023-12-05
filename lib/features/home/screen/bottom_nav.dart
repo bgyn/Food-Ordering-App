@@ -3,9 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/constants/constants.dart';
 import 'package:food_app/features/home/controller/tab_controller.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:routemaster/routemaster.dart';
 
 class BottomNav extends ConsumerWidget {
   const BottomNav({super.key});
+
+  void navigateToCartScreen(BuildContext context) {
+    Routemaster.of(context).push('/cart');
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,7 +21,8 @@ class BottomNav extends ConsumerWidget {
         leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
         actions: [
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.shopping_cart_outlined))
+              onPressed: () => navigateToCartScreen(context),
+              icon: const Icon(Icons.shopping_cart_outlined))
         ],
       ),
       body: screen[index],

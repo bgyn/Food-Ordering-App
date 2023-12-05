@@ -12,7 +12,7 @@ final productControllerProvider =
 final productListProvider = StreamProvider.autoDispose.family(
     (ref, String query) => ref
         .watch(productControllerProvider.notifier)
-        .fetchAllProduct(query: query));
+        .fetchFilterProduct(query: query));
 
 final searchProductProvider = StreamProvider.family((ref, String query) {
   final productController = ref.watch(productControllerProvider.notifier);
@@ -24,14 +24,19 @@ final getProductByIdProvider = StreamProvider.family((ref, String pid) {
   return productController.getProductById(pid);
 });
 
+final getAllProduct = StreamProvider((ref) {
+  final productController = ref.watch(productControllerProvider.notifier);
+  return productController.fetchAllProduct();
+});
+
 class ProductController extends StateNotifier<bool> {
   final ProductRepository _productRepository;
   ProductController({required ProductRepository productRepository})
       : _productRepository = productRepository,
         super(false);
 
-  Stream<List<Product>> fetchAllProduct({required String query}) {
-    return _productRepository.fetchAllProduct(query: query);
+  Stream<List<Product>> fetchFilterProduct({required String query}) {
+    return _productRepository.fetchFilterProduct(query: query);
   }
 
   Stream<List<Product>> searchProduct(String query) {
@@ -40,5 +45,9 @@ class ProductController extends StateNotifier<bool> {
 
   Stream<Product> getProductById(String pid) {
     return _productRepository.getProductById(pid);
+  }
+
+  Stream<List<Product>> fetchAllProduct() {
+    return _productRepository.fetchAllProduct();
   }
 }
