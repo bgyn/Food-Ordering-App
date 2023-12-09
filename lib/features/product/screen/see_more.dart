@@ -14,12 +14,7 @@ class SeeMore extends ConsumerWidget {
       appBar: AppBar(),
       body: ref.watch(getAllProduct).when(
           data: (data) {
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-              ),
+            return ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {
                 return ProductCard(product: data[index]);
