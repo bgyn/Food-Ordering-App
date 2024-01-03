@@ -2,18 +2,18 @@ import 'package:flutter/foundation.dart';
 
 class UserModel {
   final String uid;
-  final String? name;
+  final String name;
   final String email;
-  final String? address;
-  final String? phoneNo;
-  final String? profilePic;
+  final String address;
+  final String phoneNo;
+  String? profilePic;
   final List<String> cart;
   UserModel({
     required this.uid,
-    this.name,
+    required this.name,
     required this.email,
-    this.address,
-    this.phoneNo,
+    required this.address,
+    required this.phoneNo,
     this.profilePic,
     required this.cart,
   });
@@ -57,7 +57,7 @@ class UserModel {
         email: map['email'] ?? '',
         address: map['address'] ?? '',
         phoneNo: map['phoneNo'] ?? '',
-        profilePic: map['profilePic'] ?? '',
+        profilePic: map['profilePic'],
         cart: List<String>.from(
           (map['cart'] ?? []),
         ));

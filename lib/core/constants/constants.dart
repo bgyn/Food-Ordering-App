@@ -17,3 +17,5 @@ const menuList = [
   'Pizza',
   'Pasta',
 ];
+
+const defaultProfilePic = 'assets/images/user.png';

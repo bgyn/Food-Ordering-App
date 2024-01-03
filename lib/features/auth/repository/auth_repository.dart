@@ -53,7 +53,11 @@ class AuthRepository {
       if (credential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(
           uid: credential.user!.uid,
+          name: credential.user!.displayName ?? "Untitled",
           email: email,
+          address: 'Untitled',
+          phoneNo: credential.user!.phoneNumber ?? 'Untitled',
+          profilePic: null,
           cart: [],
         );
         await _user.doc(credential.user!.uid).set(userModel.toMap());
