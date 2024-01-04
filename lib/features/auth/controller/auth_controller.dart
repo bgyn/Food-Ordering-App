@@ -18,6 +18,11 @@ final getUserInfoProvider = FutureProvider(
 
 final userProvider = StateProvider<UserModel?>((ref) => null);
 
+final getUserProvider = StreamProvider.family((ref, String uid) {
+  final authController = ref.watch(authControllerProvider.notifier);
+  return authController.getUserData(uid);
+});
+
 class AuthController extends StateNotifier<bool> {
   final AuthRepository _authRepository;
   final Ref _ref;
