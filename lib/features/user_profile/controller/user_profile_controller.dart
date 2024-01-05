@@ -19,7 +19,6 @@ final userProfileControllerProvider = StateNotifierProvider(
   },
 );
 
-
 class UserProfileController extends StateNotifier<bool> {
   final UserProfileRepository _userProfileRepository;
   final Ref _ref;
@@ -38,6 +37,7 @@ class UserProfileController extends StateNotifier<bool> {
     required File? profileFile,
     required String name,
     required String phoneNumber,
+    required String address,
     required BuildContext context,
   }) async {
     UserModel userModel = _ref.read(userProvider)!;
@@ -57,6 +57,10 @@ class UserProfileController extends StateNotifier<bool> {
     }
     if (phoneNumber != userModel.phoneNo) {
       userModel = userModel.copyWith(phoneNo: phoneNumber);
+    }
+
+    if (address != userModel.address) {
+      userModel = userModel.copyWith(address: address);
     }
     state = false;
     final result = await _userProfileRepository.editUserProfile(userModel);

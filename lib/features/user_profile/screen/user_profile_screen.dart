@@ -4,10 +4,15 @@ import 'package:food_app/core/common/error_text.dart';
 import 'package:food_app/core/common/loader.dart';
 import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/user_profile/widget/custom_card.dart';
+import 'package:routemaster/routemaster.dart';
 
 class UserProfileScreen extends ConsumerWidget {
   final String uid;
   const UserProfileScreen({super.key, required this.uid});
+
+  void navigateToEditProfile(String uid, BuildContext context) {
+    Routemaster.of(context).push('/edit-profile/$uid');
+  }
 
   void navigateToOrders() {}
 
@@ -46,7 +51,8 @@ class UserProfileScreen extends ConsumerWidget {
                                   ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () =>
+                              navigateToEditProfile(user!.uid, context),
                           child: const Text("change"),
                         )
                       ],
@@ -91,6 +97,16 @@ class UserProfileScreen extends ConsumerWidget {
                                       )
                                     : Text(
                                         user.phoneNo,
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                user.address == 'Untitled'
+                                    ? const Text(
+                                        "Address",
+                                        style: TextStyle(color: Colors.black),
+                                      )
+                                    : Text(
+                                        user.address,
                                         style: const TextStyle(
                                             color: Colors.black),
                                       ),
