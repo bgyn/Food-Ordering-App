@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/utils/snackbar.dart';
 import 'package:food_app/features/auth/repository/auth_repository.dart';
 import 'package:food_app/model/user_model.dart';
+import 'package:routemaster/routemaster.dart';
 
 final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   (ref) => AuthController(
@@ -85,11 +85,13 @@ class AuthController extends StateNotifier<bool> {
     required BuildContext context,
   }) async {
     await _authRepository.resetPasscode(email: email).then(
-          (result) => result.fold(
-            (l) => showSnackBar(context, l.message),
-            (r) => showSnackBar(
-                context, 'Password reset link send to your email!'),
-          ),
+          (result) => result.fold((l) => showSnackBar(context, l.message), (r) {
+            showSnackBar(
+              context,
+              'Password reset link send to your email!',
+            );
+            Routemaster.of(context).pop();
+          }),
         );
   }
 }

@@ -109,10 +109,7 @@ class AuthRepository {
 
   FutureEither<String> resetPasscode({required String email}) async {
     try {
-      final querySnapshot = await _user.where('email', isEqualTo: email).get();
-      if (querySnapshot.docs.isEmpty) {
-        throw Exception("User not found with email: $email");
-      }
+      // final list = await _firebaseAuth.fetchSignInMethodsForEmail(email);
       await _firebaseAuth.sendPasswordResetEmail(email: email);
       return right('Password reset email send successfully');
     } on FirebaseException catch (e) {

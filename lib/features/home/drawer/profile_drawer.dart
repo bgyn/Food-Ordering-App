@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/features/auth/controller/auth_controller.dart';
@@ -31,8 +32,21 @@ class ProfileDrawer extends ConsumerWidget {
                         'assets/images/user.png',
                       ),
                     )
-                  : CircleAvatar(
-                      backgroundImage: NetworkImage(user!.profilePic!),
+                  : Container(
+                      width: 80,
+                      height: 80,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: user!.profilePic!,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
                     ),
             ),
             IconButton(
