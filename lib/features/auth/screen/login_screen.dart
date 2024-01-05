@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/custom_text_field.dart';
 import 'package:food_app/features/auth/controller/auth_controller.dart';
+import 'package:routemaster/routemaster.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -38,6 +39,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
         context: context);
+  }
+
+  void navigateToForgotPasscodeScreen() {
+    Routemaster.of(context).push('/reset-passcode');
   }
 
   @override
@@ -144,7 +149,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => navigateToForgotPasscodeScreen(),
                   child: Text(
                     "Forgot Passcode?",
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(

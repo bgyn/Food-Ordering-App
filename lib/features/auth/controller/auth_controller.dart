@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -77,5 +78,18 @@ class AuthController extends StateNotifier<bool> {
   void logOut() {
     _ref.watch(userProvider.notifier).update((state) => null);
     _authRepository.logOut();
+  }
+
+  void resetPasscode({
+    required String email,
+    required BuildContext context,
+  }) async {
+    await _authRepository.resetPasscode(email: email).then(
+          (result) => result.fold(
+            (l) => showSnackBar(context, l.message),
+            (r) => showSnackBar(
+                context, 'Password reset link send to your email!'),
+          ),
+        );
   }
 }

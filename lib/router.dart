@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_app/features/auth/screen/forgot_passcode_screen.dart';
 import 'package:food_app/features/cart/screen/cart_screen.dart';
 import 'package:food_app/features/auth/screen/login_screen.dart';
 import 'package:food_app/features/home/screen/bottom_nav.dart';
@@ -13,6 +14,9 @@ final logedOutRoute = RouteMap(
   routes: {
     '/': (_) => const MaterialPage(
           child: LoginScreen(),
+        ),
+    '/reset-passcode': (route) => const MaterialPage(
+          child: ForgotPasscode(),
         ),
   },
 );
