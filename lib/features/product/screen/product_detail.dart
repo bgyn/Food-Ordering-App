@@ -7,7 +7,19 @@ import 'package:food_app/features/product/controller/product_controller.dart';
 
 class ProductDetail extends ConsumerWidget {
   final String _pid;
-  const ProductDetail({super.key, required String pid}) : _pid = pid;
+  const ProductDetail({
+    super.key,
+    required String pid,
+  }) : _pid = pid;
+
+  void addToCart(
+      {required WidgetRef ref,
+      required String pid,
+      required BuildContext context}) {
+    ref
+        .watch(productControllerProvider.notifier)
+        .addToCart(pid: pid, context: context);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -110,7 +122,7 @@ class ProductDetail extends ConsumerWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor),
-          onPressed: () {},
+          onPressed: () => addToCart(ref: ref, pid: _pid, context: context),
           child: Text(
             'Add to cart',
             style: Theme.of(context)

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_app/features/auth/controller/auth_controller.dart';
+import 'package:food_app/features/cart/widget/cart_product_card.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
   const CartScreen({super.key});
@@ -11,13 +13,29 @@ class CartScreen extends ConsumerStatefulWidget {
 class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
+    ref.watch(userProvider);
+    List<String> productList = ref.read(userProvider)!.cart;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Cart"),
+        title: Text(
+          "Cart",
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(color: Colors.black, fontSize: 24),
+        ),
       ),
-      body: const Center(
-        child: Text("No Item in cart"),
+      body: ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        itemCount: productList.length,
+        itemBuilder: (context, index) {
+          return CardProductCard(
+            pid: productList[index],
+          );
+        },
       ),
     );
   }

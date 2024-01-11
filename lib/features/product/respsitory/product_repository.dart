@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/constants/firebase_constant.dart';
+import 'package:food_app/core/faliure.dart';
 import 'package:food_app/core/provider/firebase_provider.dart';
+import 'package:food_app/core/typedef.dart';
 import 'package:food_app/model/product_model.dart';
+import 'package:food_app/model/user_model.dart';
+import 'package:fpdart/fpdart.dart';
 
 final productRepositoryProvider = Provider(
   (ref) => ProductRepository(
@@ -17,6 +21,11 @@ class ProductRepository {
 
   CollectionReference get _product =>
       _firebaseFirestore.collection(FirebaseConstants.productCollection);
+
+  Stream<UserModel> getUserData(String? uid) {
+    return _user.doc(uid).snapshots().map(
+        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
+  }
 
   Stream<List<Product>> fetchFilterProduct({required String query}) {
     return _product
@@ -63,4 +72,19 @@ class ProductRepository {
         .snapshots()
         .map((event) => Product.fromMap(event.data() as Map<String, dynamic>));
   }
+
+  FutureEither<UserModel> addToCart({required UserModel user}) async {
+    try {
+      _user.doc(user.uid).update(user.toMap());
+      final userModel = await getUserData(user.uid).first;
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Faliure(e.toString()));
+    }
+  }
+
+  CollectionReference get _user =>
+      _firebaseFirestore.collection(FirebaseConstants.usersCollection);
 }
