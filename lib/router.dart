@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_app/features/auth/screen/forgot_passcode_screen.dart';
 import 'package:food_app/features/cart/screen/cart_screen.dart';
 import 'package:food_app/features/auth/screen/login_screen.dart';
+import 'package:food_app/features/checkout/screen/checkout_delivery.dart';
+import 'package:food_app/features/checkout/screen/checkout_payment.dart';
 import 'package:food_app/features/home/screen/bottom_nav.dart';
 import 'package:food_app/features/product/screen/product_detail.dart';
 import 'package:food_app/features/product/screen/see_more.dart';
@@ -45,6 +47,12 @@ final logedInRoute = RouteMap(
         ),
     '/edit-profile/:uid': (route) => MaterialPage(
           child: EditUserProfile(uid: route.pathParameters['uid']!),
+        ),
+    '/checkout-delivery': (route) => const MaterialPage(
+          child: CheckoutDelivery(),
+        ),
+    '/checkout-payment': (route) => const MaterialPage(
+          child: CheckoutPayment(),
         ),
   },
 );
