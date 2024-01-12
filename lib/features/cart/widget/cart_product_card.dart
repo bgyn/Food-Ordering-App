@@ -65,9 +65,20 @@ class CardProductCard extends ConsumerWidget {
                             const Icon(Icons.error),
                       ),
                     ),
-                    title: Text(product.name),
-                    subtitle: Text("Rs. ${product.price}"),
-                    trailing: Icon(Icons.add),
+                    title: Text(
+                      product.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Colors.black, fontSize: 18),
+                    ),
+                    subtitle: Text(
+                      "Rs. ${product.price}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(color: Theme.of(context).primaryColor),
+                    ),
                   ),
                 ),
               ),
