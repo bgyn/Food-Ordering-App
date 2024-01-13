@@ -112,7 +112,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                         ),
                         child: Text(
-                          'Sing-up',
+                          'Sign-up',
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
