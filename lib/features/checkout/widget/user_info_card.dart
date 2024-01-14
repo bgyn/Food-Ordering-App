@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_app/core/utils/divider.dart';
+import 'package:food_app/core/utils/custom_divider.dart';
 import 'package:food_app/features/auth/controller/auth_controller.dart';
+import 'package:routemaster/routemaster.dart';
 
 class UserInfoCard extends ConsumerWidget {
   const UserInfoCard({super.key});
+
+  void navigateToEditUserProfile(
+      BuildContext context, WidgetRef ref, String uid) {
+    Routemaster.of(context).push('/edit-profile/$uid');
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +28,8 @@ class UserInfoCard extends ConsumerWidget {
                   ?.copyWith(color: Colors.black, fontSize: 14),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () =>
+                  navigateToEditUserProfile(context, ref, user.uid),
               child: Text(
                 "change",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -49,7 +56,10 @@ class UserInfoCard extends ConsumerWidget {
                       fontSize: 18,
                     ),
               ),
-              const CustomDivider(),
+              const CustomDivider(
+                indent: 0,
+                endIndent: 0,
+              ),
               Text(
                 user.address,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -57,7 +67,10 @@ class UserInfoCard extends ConsumerWidget {
                       fontSize: 18,
                     ),
               ),
-              const CustomDivider(),
+              const CustomDivider(
+                indent: 0,
+                endIndent: 0,
+              ),
               Text(
                 user.phoneNo,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(

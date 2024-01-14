@@ -7,6 +7,12 @@ import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/checkout/repository/checkout_repository.dart';
 import 'package:food_app/model/order_model.dart';
 
+final checkoutConrollerProvider = StateNotifierProvider((ref) =>
+    CheckoutConroller(
+        checkoutRepository: ref.read(checkoutRepositoryProvider), ref: ref));
+
+final totalAmountPovider = StateProvider<int?>((ref) => null);
+
 class CheckoutConroller extends StateNotifier<bool> {
   final CheckoutRepository _checkoutRepository;
   final Ref _ref;
@@ -44,5 +50,13 @@ class CheckoutConroller extends StateNotifier<bool> {
       (l) => showSnackBar(context, l.message),
       (r) => showSnackBar(context, "Order Placed Successfully!"),
     );
+  }
+
+  void getAmount(BuildContext context) async {
+    final user = _ref.read(userProvider)!;
+    final res = await _checkoutRepository.getAmount(user.cart);
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      _ref.read(totalAmountPovider.notifier).update((state) => r);
+    });
   }
 }

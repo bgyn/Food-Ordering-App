@@ -21,6 +21,9 @@ class CheckoutRepository {
   CollectionReference get _order =>
       _firebaseFirestore.collection(FirebaseConstants.orderCollection);
 
+  CollectionReference get _product =>
+      _firebaseFirestore.collection(FirebaseConstants.productCollection);
+
   FutureVoid placeOrder({required OrderModel order}) async {
     try {
       return right(_order.doc(order.orderId).set(order.toMap()));
@@ -33,7 +36,23 @@ class CheckoutRepository {
     }
   }
 
-  
-
-
+  FutureEither<int> getAmount(List<String> pid) async {
+    try {
+      int totalamount = 0;
+      for (final element in pid) {
+        DocumentSnapshot productSnapshot = await _product.doc(element).get();
+        if (productSnapshot.exists) {
+          int price = productSnapshot['price'];
+          totalamount += price;
+        } else {
+          throw '$pid product missing';
+        }
+      }
+      return right(totalamount);
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Faliure(e.toString()));
+    }
+  }
 }

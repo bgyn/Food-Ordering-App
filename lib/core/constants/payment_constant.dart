@@ -14,3 +14,8 @@ class PaymentMethod {
   static const String esewa = 'esewa';
   static const String bankaccount = 'bankaccount';
 }
+
+class DeliveryMethod {
+  static const String doorDelivery = 'door-delivery';
+  static const String pickUp = 'pick-up';
+}

@@ -3,19 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/constants/payment_constant.dart';
 import 'package:food_app/core/utils/custom_divider.dart';
 
-final deliverMethodProvider = StateProvider<String>((ref) => DeliveryMethod.doorDelivery);
+final paymentMethodProvider =
+    StateProvider<String>((ref) => PaymentMethod.esewa);
 
-class DeliveryMethodCard extends ConsumerWidget {
-  const DeliveryMethodCard({super.key});
+class PaymentMethodCard extends ConsumerWidget {
+  const PaymentMethodCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final deliveryMethod = ref.watch(deliverMethodProvider);
+    final deliveryMethod = ref.watch(paymentMethodProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Delivery Method",
+          "Payment Method",
           style: Theme.of(context)
               .textTheme
               .bodyMedium
@@ -35,12 +36,12 @@ class DeliveryMethodCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RadioListTile(
-                title: const Text('Door Delivery'),
-                value: DeliveryMethod.doorDelivery,
+                title: const Text('Esewa'),
+                value: PaymentMethod.esewa,
                 groupValue: deliveryMethod,
                 onChanged: (value) {
                   ref
-                      .read(deliverMethodProvider.notifier)
+                      .read(paymentMethodProvider.notifier)
                       .update((state) => value.toString());
                 },
               ),
@@ -49,12 +50,12 @@ class DeliveryMethodCard extends ConsumerWidget {
                 endIndent: 20,
               ),
               RadioListTile(
-                title: const Text('Pick Up'),
-                value: DeliveryMethod.pickUp,
+                title: const Text('Bank Account'),
+                value: PaymentMethod.bankaccount,
                 groupValue: deliveryMethod,
                 onChanged: (value) {
                   ref
-                      .read(deliverMethodProvider.notifier)
+                      .read(paymentMethodProvider.notifier)
                       .update((state) => value.toString());
                 },
               ),
