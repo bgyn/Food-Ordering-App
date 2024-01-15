@@ -50,8 +50,8 @@ class PaymentMethodCard extends ConsumerWidget {
                 endIndent: 20,
               ),
               RadioListTile(
-                title: const Text('Bank Account'),
-                value: PaymentMethod.bankaccount,
+                title: const Text('Cash on Delivery'),
+                value: PaymentMethod.cashOnDelivery,
                 groupValue: deliveryMethod,
                 onChanged: (value) {
                   ref

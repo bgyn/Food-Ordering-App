@@ -12,7 +12,7 @@ class PaymentStatus {
 
 class PaymentMethod {
   static const String esewa = 'esewa';
-  static const String bankaccount = 'bankaccount';
+  static const String cashOnDelivery = 'cashOnDelivery';
 }
 
 class DeliveryMethod {
