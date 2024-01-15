@@ -32,4 +32,14 @@ class CartController extends StateNotifier<bool> {
       },
     );
   }
+
+  void clearCart({required BuildContext context}) async {
+    UserModel user = _ref.read(userProvider)!;
+    user = user.copyWith(cart: []);
+    final result = await _cartRepository.updateCart(user: user);
+    result.fold(
+      (l) => showSnackBar(context, l.toString()),
+      (r) => _ref.read(userProvider.notifier).update((state) => r),
+    );
+  }
 }

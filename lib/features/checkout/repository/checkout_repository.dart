@@ -55,4 +55,16 @@ class CheckoutRepository {
       return left(Faliure(e.toString()));
     }
   }
+
+  FutureVoid updateOrder(OrderModel order) async {
+    try {
+      return right(_order.doc(order.orderId).update(order.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Faliure(e.toString()));
+    }
+  }
+
+  
 }

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -8,8 +7,9 @@ class OrderModel {
   final String orderStatus;
   final String paymentMethod;
   final String paymentStatus;
+  final String deliveryMethod;
   final DateTime timestamp;
-  final Double amount;
+  final int amount;
   final String uid;
 
   OrderModel({
@@ -18,6 +18,7 @@ class OrderModel {
     required this.orderStatus,
     required this.paymentMethod,
     required this.paymentStatus,
+    required this.deliveryMethod,
     required this.timestamp,
     required this.amount,
     required this.uid,
@@ -29,8 +30,9 @@ class OrderModel {
     String? orderStatus,
     String? paymentMethod,
     String? paymentStatus,
+    String? deliveryMethod,
     DateTime? timestamp,
-    Double? amount,
+    int? amount,
     String? uid,
   }) {
     return OrderModel(
@@ -38,6 +40,7 @@ class OrderModel {
       productId: productId ?? this.productId,
       orderStatus: orderStatus ?? this.orderStatus,
       paymentMethod: paymentMethod ?? this.paymentMethod,
+      deliveryMethod: deliveryMethod ?? this.deliveryMethod,
       paymentStatus: paymentStatus ?? this.paymentStatus,
       timestamp: timestamp ?? this.timestamp,
       amount: amount ?? this.amount,
@@ -52,6 +55,7 @@ class OrderModel {
       'orderStatus': orderStatus,
       'paymentMethod': paymentMethod,
       'paymentStatus': paymentStatus,
+      'deliveryMethod' : deliveryMethod,
       'timestamp': timestamp.millisecondsSinceEpoch,
       'amount': amount,
       'uid': uid,
@@ -65,15 +69,16 @@ class OrderModel {
       orderStatus: map['orderStatus'] as String,
       paymentMethod: map['paymentMethod'] as String,
       paymentStatus: map['paymentStatus'] as String,
+      deliveryMethod: map['deliveryMethod'] as String,
       timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp'] as int),
-      amount: map['amount'] as Double,
+      amount: map['amount'] as int,
       uid: map['uid'] as String,
     );
   }
 
   @override
   String toString() {
-    return 'OrderModel(orderId: $orderId, productId: $productId, orderStatus: $orderStatus, paymentMethod: $paymentMethod, $paymentStatus:paymentStatus,timestamp: $timestamp, amount: $amount, uid: $uid)';
+    return 'OrderModel(orderId: $orderId, productId: $productId, orderStatus: $orderStatus, paymentMethod: $paymentMethod, $paymentStatus:paymentStatus,$deliveryMethod : deliveryMethod,timestamp: $timestamp, amount: $amount, uid: $uid)';
   }
 
   @override
@@ -85,6 +90,7 @@ class OrderModel {
         other.orderStatus == orderStatus &&
         other.paymentMethod == paymentMethod &&
         other.paymentStatus == paymentStatus &&
+        other.deliveryMethod == deliveryMethod &&
         other.timestamp == timestamp &&
         other.amount == amount &&
         other.uid == uid;
@@ -97,6 +103,7 @@ class OrderModel {
         orderStatus.hashCode ^
         paymentMethod.hashCode ^
         paymentStatus.hashCode ^
+        deliveryMethod.hashCode ^
         timestamp.hashCode ^
         amount.hashCode ^
         uid.hashCode;
