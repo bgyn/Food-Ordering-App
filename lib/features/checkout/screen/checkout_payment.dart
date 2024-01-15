@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/loader.dart';
-import 'package:food_app/core/constants/payment_constant.dart';
 import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/checkout/controller/checkout_controller.dart';
 import 'package:food_app/features/checkout/widget/delivery_method_card.dart';
 import 'package:food_app/features/checkout/widget/payment_method_card.dart';
-import 'package:food_app/features/payment/controller/payment_controller.dart';
 
 class CheckoutPayment extends ConsumerStatefulWidget {
   const CheckoutPayment({super.key});

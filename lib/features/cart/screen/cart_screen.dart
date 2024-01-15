@@ -18,9 +18,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(userProvider);
+    final user = ref.watch(userProvider);
     List<String> productList = ref.read(userProvider)!.cart;
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -32,35 +31,43 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               ?.copyWith(color: Colors.black, fontSize: 24),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                return CardProductCard(
-                  pid: productList[index],
-                );
-              },
+      body: user!.cart.isEmpty
+          ? const Center(
+              child: Text("Cart is Empty"),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
+                    itemCount: productList.length,
+                    itemBuilder: (context, index) {
+                      return CardProductCard(
+                        pid: productList[index],
+                      );
+                    },
+                  ),
+                ),
+                Visibility(
+                  visible: user.cart.isNotEmpty,
+                  child: InkWell(
+                    onTap: () => navigateToCheckoutDelivery(context),
+                    child: Container(
+                      width: double.infinity,
+                      height: 50,
+                      margin: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(100)),
+                      child: const Center(child: Text("Complete Order")),
+                    ),
+                  ),
+                )
+              ],
             ),
-          ),
-          InkWell(
-            onTap: () => navigateToCheckoutDelivery(context),
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              margin: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(100)),
-              child: const Center(child: Text("Complete Order")),
-            ),
-          )
-        ],
-      ),
     );
   }
 }
