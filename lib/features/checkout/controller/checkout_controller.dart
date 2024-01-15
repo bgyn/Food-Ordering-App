@@ -10,6 +10,8 @@ import 'package:food_app/features/checkout/widget/payment_method_card.dart';
 import 'package:food_app/model/order_model.dart';
 import 'package:routemaster/routemaster.dart';
 
+final currentOrderIdProvider = StateProvider<String?>((ref) => null);
+
 final checkoutConrollerProvider = StateNotifierProvider((ref) =>
     CheckoutConroller(
         checkoutRepository: ref.read(checkoutRepositoryProvider), ref: ref));
@@ -49,11 +51,14 @@ class CheckoutConroller extends StateNotifier<bool> {
     final res = await _checkoutRepository.placeOrder(order: order);
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) {
+        showSnackBar(context, l.message);
+      },
       (r) {
-        // showSnackBar(context, "Order Placed Successfully!");
         _ref.read(cartControllerProvider.notifier).clearCart(context: context);
-        Routemaster.of(context).pop();
+        _ref
+            .read(currentOrderIdProvider.notifier)
+            .update((state) => order.orderId);
       },
     );
   }
@@ -69,5 +74,12 @@ class CheckoutConroller extends StateNotifier<bool> {
   void updateOrder(BuildContext context, OrderModel order) async {
     final res = await _checkoutRepository.updateOrder(order);
     res.fold((l) => showSnackBar(context, l.message), (r) => {});
+  }
+
+  void updatePaymentStatus(
+      BuildContext context, String orderId, String paymentStatus) async {
+    final res =
+        await _checkoutRepository.updatePaymentStatus(orderId, paymentStatus);
+    res.fold((l) => showSnackBar(context, l.message), (r) => null);
   }
 }

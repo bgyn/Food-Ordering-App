@@ -66,5 +66,14 @@ class CheckoutRepository {
     }
   }
 
-  
+  FutureVoid updatePaymentStatus(String orderId, String paymentStatus) async {
+    try {
+      return right(
+          _order.doc(orderId).update({'paymentStatus': paymentStatus}));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Faliure(e.toString()));
+    }
+  }
 }

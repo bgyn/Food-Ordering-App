@@ -47,6 +47,7 @@ class PaymentRepsitory {
       return left(Faliure(e.toString()));
     }
   }
+
   // void verifyTransactionStatus(EsewaPaymentSuccessResult result) async {
   //   var response = await callVerificationApi(result);
   //   if (response.statusCode == 200) {
