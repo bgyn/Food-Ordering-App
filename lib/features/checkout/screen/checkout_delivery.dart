@@ -21,7 +21,7 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutDelivery> {
   }
 
   void navigateToCheckoutPayment(BuildContext context) {
-    Routemaster.of(context).push('/checkout-payment');
+    Routemaster.of(context).push('/checkout-delivery/checkout-payment');
   }
 
   @override

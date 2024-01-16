@@ -27,7 +27,7 @@ class CustomCard extends StatelessWidget {
                   ),
             ),
             IconButton(
-              onPressed: () => onTap,
+              onPressed: onTap,
               icon: const Icon(Icons.keyboard_arrow_right),
             ),
           ],

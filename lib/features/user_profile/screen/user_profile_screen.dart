@@ -15,7 +15,9 @@ class UserProfileScreen extends ConsumerWidget {
     Routemaster.of(context).push('/edit-profile/$uid');
   }
 
-  void navigateToOrders() {}
+  void navigateToOrders(BuildContext context, String uid) {
+    Routemaster.of(context).push('/orders/$uid');
+  }
 
   void navigateToPendingReview() {}
 
@@ -129,7 +131,10 @@ class UserProfileScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    CustomCard(title: 'Orders', onTap: navigateToOrders),
+                    CustomCard(
+                      title: 'Orders',
+                      onTap: () => navigateToOrders(context, uid),
+                    ),
                     CustomCard(
                         title: 'Pending reviews',
                         onTap: navigateToPendingReview),

@@ -4,6 +4,7 @@ import 'package:food_app/core/constants/payment_constant.dart';
 import 'package:food_app/core/utils/snackbar.dart';
 import 'package:food_app/features/checkout/controller/checkout_controller.dart';
 import 'package:food_app/features/payment/repository/payment_repository.dart';
+import 'package:routemaster/routemaster.dart';
 
 final paymentControllerProvider = StateNotifierProvider(
   (ref) => PaymentController(
@@ -35,6 +36,7 @@ class PaymentController extends StateNotifier<bool> {
       _ref
           .read(checkoutConrollerProvider.notifier)
           .updatePaymentStatus(context, orderId, PaymentStatus.completed);
+      Routemaster.of(context).pop();
     });
   }
 }

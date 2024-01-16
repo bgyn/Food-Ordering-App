@@ -55,7 +55,7 @@ class OrderModel {
       'orderStatus': orderStatus,
       'paymentMethod': paymentMethod,
       'paymentStatus': paymentStatus,
-      'deliveryMethod' : deliveryMethod,
+      'deliveryMethod': deliveryMethod,
       'timestamp': timestamp.millisecondsSinceEpoch,
       'amount': amount,
       'uid': uid,
@@ -65,7 +65,7 @@ class OrderModel {
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
       orderId: map['orderId'] as String,
-      productId: List<String>.from((map['productId'] as List<String>)),
+      productId: List<String>.from((map['productId'] ?? [])),
       orderStatus: map['orderStatus'] as String,
       paymentMethod: map['paymentMethod'] as String,
       paymentStatus: map['paymentStatus'] as String,

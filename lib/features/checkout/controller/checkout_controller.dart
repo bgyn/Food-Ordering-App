@@ -8,13 +8,13 @@ import 'package:food_app/features/checkout/repository/checkout_repository.dart';
 import 'package:food_app/features/checkout/widget/delivery_method_card.dart';
 import 'package:food_app/features/checkout/widget/payment_method_card.dart';
 import 'package:food_app/model/order_model.dart';
-import 'package:routemaster/routemaster.dart';
 
 final currentOrderIdProvider = StateProvider<String?>((ref) => null);
 
-final checkoutConrollerProvider = StateNotifierProvider((ref) =>
-    CheckoutConroller(
-        checkoutRepository: ref.read(checkoutRepositoryProvider), ref: ref));
+final checkoutConrollerProvider = StateNotifierProvider(
+  (ref) => CheckoutConroller(
+      checkoutRepository: ref.read(checkoutRepositoryProvider), ref: ref),
+);
 
 final totalAmountPovider = StateProvider<int?>((ref) => null);
 
