@@ -77,7 +77,7 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
                     height: 20,
                   ),
                   Text(
-                    "Payement",
+                    "Payment",
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Colors.black,
                           fontSize: 30,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/error_text.dart';
 import 'package:food_app/core/common/loader.dart';
+import 'package:food_app/features/cart/controller/cart_controller.dart';
 import 'package:food_app/features/product/controller/product_controller.dart';
 
 class ProductDetail extends ConsumerWidget {
@@ -15,10 +16,15 @@ class ProductDetail extends ConsumerWidget {
   void addToCart(
       {required WidgetRef ref,
       required String pid,
+      required int price,
+      required int quantity,
       required BuildContext context}) {
-    ref
-        .watch(productControllerProvider.notifier)
-        .addToCart(pid: pid, context: context);
+    ref.read(cartControllerProvider.notifier).addToCart(
+          context: context,
+          pid: pid,
+          price: price,
+          quantity: quantity,
+        );
   }
 
   @override
@@ -105,6 +111,31 @@ class ProductDetail extends ConsumerWidget {
                                   color: Colors.grey.shade700, fontSize: 18),
                         ),
                       ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: SizedBox(
+                          // padding: const EdgeInsets.symmetric(horizontal: 20),
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Theme.of(context).primaryColor),
+                            onPressed: () => addToCart(
+                                ref: ref,
+                                pid: product.pid,
+                                price: product.price,
+                                quantity: 1,
+                                context: context),
+                            child: Text(
+                              'Add to cart',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(color: Colors.white, fontSize: 18),
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -115,23 +146,6 @@ class ProductDetail extends ConsumerWidget {
             },
             loading: () => const Loader(),
           ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        width: double.infinity,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor),
-          onPressed: () => addToCart(ref: ref, pid: _pid, context: context),
-          child: Text(
-            'Add to cart',
-            style: Theme.of(context)
-                .textTheme
-                .labelMedium
-                ?.copyWith(color: Colors.white, fontSize: 18),
-          ),
-        ),
-      ),
     );
   }
 }

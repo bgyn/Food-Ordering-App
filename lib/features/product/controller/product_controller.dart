@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_app/core/utils/snackbar.dart';
-import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/product/respsitory/product_repository.dart';
 import 'package:food_app/model/product_model.dart';
-import 'package:food_app/model/user_model.dart';
 
 final productControllerProvider =
     StateNotifierProvider<ProductController, bool>(
@@ -36,11 +32,9 @@ final getAllProduct = StreamProvider((ref) {
 
 class ProductController extends StateNotifier<bool> {
   final ProductRepository _productRepository;
-  final Ref _ref;
   ProductController(
       {required ProductRepository productRepository, required Ref ref})
       : _productRepository = productRepository,
-        _ref = ref,
         super(false);
 
   Stream<List<Product>> fetchFilterProduct({required String query}) {
@@ -59,17 +53,4 @@ class ProductController extends StateNotifier<bool> {
     return _productRepository.fetchAllProduct();
   }
 
-  void addToCart({
-    required String pid,
-    required BuildContext context,
-  }) async {
-    UserModel user = _ref.read(userProvider)!;
-    List<String> updateCart = List.from(user.cart)..add(pid);
-    user = user.copyWith(cart: updateCart);
-    final result = await _productRepository.addToCart(user: user);
-    result.fold((l) => showSnackBar(context, l.message), (r) {
-      _ref.read(userProvider.notifier).update((state) => r);
-      showSnackBar(context, "Added to Cart");
-    });
-  }
 }

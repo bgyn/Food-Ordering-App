@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_app/features/auth/controller/auth_controller.dart';
+import 'package:food_app/features/cart/controller/cart_controller.dart';
 import 'package:food_app/features/cart/widget/cart_product_card.dart';
+import 'package:food_app/model/cart_model.dart';
 import 'package:routemaster/routemaster.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
@@ -18,8 +19,8 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider);
-    List<String> productList = ref.read(userProvider)!.cart;
+    final cart = ref.watch(cartProvider);
+    List<CartItem> productList = ref.read(cartProvider)!.item;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -31,7 +32,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
               ?.copyWith(color: Colors.black, fontSize: 24),
         ),
       ),
-      body: user!.cart.isEmpty
+      body: cart!.item.isEmpty
           ? const Center(
               child: Text("Cart is Empty"),
             )
@@ -46,13 +47,13 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                     itemCount: productList.length,
                     itemBuilder: (context, index) {
                       return CardProductCard(
-                        pid: productList[index],
+                        pid: productList[index].pid,
                       );
                     },
                   ),
                 ),
                 Visibility(
-                  visible: user.cart.isNotEmpty,
+                  visible: cart.item.isNotEmpty,
                   child: InkWell(
                     onTap: () => navigateToCheckoutDelivery(context),
                     child: Container(
