@@ -78,8 +78,11 @@ class CartRepository {
   }
 
   Stream<CartModel> getUserCart(String uid) {
-    return _cart.doc(uid).snapshots().map(
-        (event) => CartModel.fromMap(event.data() as Map<String, dynamic>));
+    return _cart.where('uid', isEqualTo: uid).snapshots().map((event) {
+      return event.docs
+          .map((e) => CartModel.fromMap(e.data() as Map<String, dynamic>))
+          .first;
+    });
   }
 
   FutureVoid deleteFromCart(CartModel updatedCart) async {
