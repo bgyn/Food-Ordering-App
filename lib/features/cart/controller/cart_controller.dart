@@ -60,10 +60,18 @@ class CartController extends StateNotifier<bool> {
       required int quantity}) async {
     state = true;
     CartModel cart = _ref.read(cartProvider)!;
-    CartItem cartItem = CartItem(pid: pid, price: price, quantity: quantity);
-    cart = cart.copyWith(
-      item: cart.item + [cartItem],
-    );
+    int index = cart.item.indexWhere((element) => element.pid == pid);
+    if (index != -1) {
+      List<CartItem> updatedItem = List.from(cart.item);
+      int newQuantity = updatedItem[index].quantity + 1;
+      updatedItem[index] = updatedItem[index].copyWith(quantity: newQuantity);
+      cart = cart.copyWith(item: updatedItem);
+    } else {
+      CartItem cartItem = CartItem(pid: pid, price: price, quantity: quantity);
+      cart = cart.copyWith(
+        item: cart.item + [cartItem],
+      );
+    }
     state = false;
     final res = await _cartRepository.addTocart(cart);
     res.fold(
@@ -72,6 +80,25 @@ class CartController extends StateNotifier<bool> {
         _ref.read(cartProvider.notifier).update((state) => cart);
         showSnackBar(context, 'Added to cart');
       },
+    );
+  }
+
+  void updateProductQuanitty({
+    required BuildContext context,
+    required String pid,
+    required int quantity,
+  }) async {
+    state = true;
+    CartModel cart = _ref.read(cartProvider)!;
+    int index = cart.item.indexWhere((element) => element.pid == pid);
+    List<CartItem> updatedItem = List.from(cart.item);
+    updatedItem[index] = updatedItem[index].copyWith(quantity: quantity);
+    cart = cart.copyWith(item: updatedItem);
+    state = false;
+    final res = await _cartRepository.updateProductQuantity(cart);
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) => _ref.read(cartProvider.notifier).update((state) => cart),
     );
   }
 

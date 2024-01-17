@@ -94,4 +94,14 @@ class CartRepository {
       return left(Faliure(e.toString()));
     }
   }
+
+  FutureVoid updateProductQuantity(CartModel updatedCart) async {
+    try {
+      return right(_cart.doc(updatedCart.cid).update(updatedCart.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Faliure(e.toString()));
+    }
+  }
 }
