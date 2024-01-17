@@ -17,13 +17,11 @@ class ProductDetail extends ConsumerWidget {
       {required WidgetRef ref,
       required String pid,
       required int price,
-      required int quantity,
       required BuildContext context}) {
     ref.read(cartControllerProvider.notifier).addToCart(
           context: context,
           pid: pid,
           price: price,
-          quantity: quantity,
         );
   }
 
@@ -124,7 +122,6 @@ class ProductDetail extends ConsumerWidget {
                                 ref: ref,
                                 pid: product.pid,
                                 price: product.price,
-                                quantity: 1,
                                 context: context),
                             child: Text(
                               'Add to cart',

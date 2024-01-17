@@ -53,11 +53,11 @@ class CartController extends StateNotifier<bool> {
     );
   }
 
-  void addToCart(
-      {required BuildContext context,
-      required String pid,
-      required int price,
-      required int quantity}) async {
+  void addToCart({
+    required BuildContext context,
+    required String pid,
+    required int price,
+  }) async {
     state = true;
     CartModel cart = _ref.read(cartProvider)!;
     int index = cart.item.indexWhere((element) => element.pid == pid);
@@ -67,7 +67,7 @@ class CartController extends StateNotifier<bool> {
       updatedItem[index] = updatedItem[index].copyWith(quantity: newQuantity);
       cart = cart.copyWith(item: updatedItem);
     } else {
-      CartItem cartItem = CartItem(pid: pid, price: price, quantity: quantity);
+      CartItem cartItem = CartItem(pid: pid, price: price, quantity: 1);
       cart = cart.copyWith(
         item: cart.item + [cartItem],
       );
