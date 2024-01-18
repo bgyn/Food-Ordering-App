@@ -28,6 +28,7 @@ class CheckoutConroller extends StateNotifier<bool> {
 
   void placeOrder({
     required BuildContext context,
+    required String orderId,
     required int orderTotal,
     required String orderStatus,
     required String deliveryMethod,
@@ -69,12 +70,5 @@ class CheckoutConroller extends StateNotifier<bool> {
       final amount = _checkoutRepository.getAmount(cartItems);
       _ref.read(totalAmountPovider.notifier).update((state) => amount);
     }
-  }
-
-  void updatePaymentStatus(
-      BuildContext context, String orderId, String paymentStatus) async {
-    final res =
-        await _checkoutRepository.updatePaymentStatus(orderId, paymentStatus);
-    res.fold((l) => showSnackBar(context, l.message), (r) => null);
   }
 }

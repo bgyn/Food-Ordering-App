@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esewa_flutter_sdk/esewa_config.dart';
 import 'package:esewa_flutter_sdk/esewa_flutter_sdk.dart';
 import 'package:esewa_flutter_sdk/esewa_payment.dart';
@@ -5,17 +6,26 @@ import 'package:esewa_flutter_sdk/esewa_payment_success_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/constants/esewa_credential.dart';
+import 'package:food_app/core/constants/firebase_constant.dart';
 import 'package:food_app/core/faliure.dart';
+import 'package:food_app/core/provider/firebase_provider.dart';
+import 'package:food_app/core/typedef.dart';
+import 'package:food_app/model/payment_model.dart';
 import 'package:fpdart/fpdart.dart';
 
 final paymentRepsitoryProvider = Provider(
-  (ref) => PaymentRepsitory(),
+  (ref) => PaymentRepsitory(
+    firebaseFirestore: ref.read(firebaseFirestoreProvider),
+  ),
 );
 
 class PaymentRepsitory {
+  final FirebaseFirestore _firebaseFirestore;
+  PaymentRepsitory({required FirebaseFirestore firebaseFirestore})
+      : _firebaseFirestore = firebaseFirestore;
   Either payWithEsewa(
       {required int price,
-      required String productId,
+      required String orderId,
       required String productName}) {
     try {
       EsewaFlutterSdk.initPayment(
@@ -25,7 +35,7 @@ class PaymentRepsitory {
           secretId: EsewaCredential.secretId,
         ),
         esewaPayment: EsewaPayment(
-          productId: productId,
+          productId: orderId,
           productName: productName,
           productPrice: price.toString(),
         ),
@@ -63,4 +73,19 @@ class PaymentRepsitory {
   //     //TODO Handle Txn Verification Failure
   //   }
   // }
+  
+  FutureVoid initializePayment(PaymentModel paymentModel) async {
+    try {
+      return right(
+          _payment.doc(paymentModel.paymentId).set(paymentModel.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Faliure(e.toString()));
+    }
+  }
+
+  CollectionReference get _payment =>
+      _firebaseFirestore.collection(FirebaseConstants.paymentCollection);
+
 }

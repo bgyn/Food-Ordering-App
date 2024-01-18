@@ -6,6 +6,7 @@ import 'package:food_app/features/checkout/controller/checkout_controller.dart';
 import 'package:food_app/features/checkout/widget/delivery_method_card.dart';
 import 'package:food_app/features/checkout/widget/payment_method_card.dart';
 import 'package:food_app/features/payment/controller/payment_controller.dart';
+import 'package:uuid/uuid.dart';
 
 class CheckoutPayment extends ConsumerStatefulWidget {
   const CheckoutPayment({super.key});
@@ -21,19 +22,19 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
     WidgetRef ref,
     int price,
     String productName,
+    String orderId,
   ) {
-    final orderId = ref.read(currentOrderIdProvider);
     ref.read(paymentControllerProvider.notifier).payWithEsewa(
         price: price,
         productName: productName,
-        productId: orderId!,
         orderId: orderId,
         context: context);
   }
 
-  void placeOrder(BuildContext context, WidgetRef ref) {
+  void placeOrder(BuildContext context, WidgetRef ref, String orderId) {
     ref.read(checkoutConrollerProvider.notifier).placeOrder(
           context: context,
+          orderId: orderId,
           orderTotal: ref.read(totalAmountPovider)!,
           orderStatus: 'processing',
           deliveryMethod: ref.read(deliverMethodProvider),
@@ -114,12 +115,14 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
                   ),
                   InkWell(
                     onTap: () {
-                      placeOrder(context, ref);
-                      // final paymentMethod = ref.read(paymentMethodProvider);
-                      // if (paymentMethod == PaymentMethod.esewa) {
-                      //   payWithEsewa(context, ref,
-                      //       ref.read(totalAmountPovider)!, 'Product');
-                      // } else {}
+                      final price = ref.read(totalAmountPovider);
+                      final orderId = const Uuid().v4();
+                      placeOrder(context, ref, orderId);
+                      final paymentMethod = ref.read(paymentMethodProvider);
+                      if (paymentMethod == PaymentMethod.esewa) {
+                        payWithEsewa(
+                            context, ref, price, 'Food Product', orderId);
+                      } else {}
                     },
                     child: Container(
                       width: double.infinity,

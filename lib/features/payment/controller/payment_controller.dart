@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/constants/payment_constant.dart';
 import 'package:food_app/core/utils/snackbar.dart';
-import 'package:food_app/features/checkout/controller/checkout_controller.dart';
+import 'package:food_app/features/checkout/widget/payment_method_card.dart';
 import 'package:food_app/features/payment/repository/payment_repository.dart';
+import 'package:food_app/model/payment_model.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:uuid/uuid.dart';
 
 final paymentControllerProvider = StateNotifierProvider(
   (ref) => PaymentController(
@@ -25,17 +27,22 @@ class PaymentController extends StateNotifier<bool> {
   void payWithEsewa(
       {required int price,
       required String productName,
-      required String productId,
       required String orderId,
       required BuildContext context}) async {
+    PaymentModel paymentModel;
+    paymentModel = PaymentModel(
+      paymentId: const Uuid().v4(),
+      orderId: orderId,
+      paymentMethod: _ref.read(paymentMethodProvider),
+      amount: price,
+      status: PaymentStatus.processing,
+    );
     final res = _paymentRepsitory.payWithEsewa(
-        price: price, productId: productId, productName: productName);
+        price: price, orderId: orderId, productName: productName);
+    _paymentRepsitory.initializePayment(paymentModel);
     res.fold((l) {
       showSnackBar(context, l.toString());
     }, (r) {
-      _ref
-          .read(checkoutConrollerProvider.notifier)
-          .updatePaymentStatus(context, orderId, PaymentStatus.completed);
       Routemaster.of(context).pop();
     });
   }
