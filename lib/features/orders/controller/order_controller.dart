@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/features/orders/repository/order_repository.dart';
-import 'package:food_app/model/order_model.dart';
+import 'package:food_app/model/new_order_model.dart';
 
 final orderControllerProvider = StateNotifierProvider((ref) => OrderController(
     orderRepository: ref.read(orderRepositoryProvider), ref: ref));
@@ -18,7 +18,7 @@ class OrderController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
-  Stream<List<OrderModel>> getUserOrder(String uid) {
+  Stream<List<OrdersModel>> getUserOrder(String uid) {
     return _orderRepository.getUserOrders(uid);
   }
 }

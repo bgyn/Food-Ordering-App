@@ -6,7 +6,6 @@ import 'package:food_app/core/provider/firebase_provider.dart';
 import 'package:food_app/core/typedef.dart';
 import 'package:food_app/model/cart_model.dart';
 import 'package:food_app/model/new_order_model.dart';
-import 'package:food_app/model/order_model.dart';
 import 'package:fpdart/fpdart.dart';
 
 final checkoutRepositoryProvider = Provider(
@@ -41,16 +40,6 @@ class CheckoutRepository {
       totalamount += (item.price * item.quantity);
     }
     return totalamount;
-  }
-
-  FutureVoid updateOrder(OrderModel order) async {
-    try {
-      return right(_order.doc(order.orderId).update(order.toMap()));
-    } on FirebaseException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return left(Faliure(e.toString()));
-    }
   }
 
   FutureVoid updatePaymentStatus(String orderId, String paymentStatus) async {

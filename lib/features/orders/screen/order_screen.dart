@@ -78,7 +78,7 @@ class OrderScreen extends ConsumerWidget {
                             ),
                       ),
                       trailing: Text(
-                        dateFormat.format(data[index].timestamp),
+                        dateFormat.format(data[index].createdAt),
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: Colors.black,
                               fontSize: 14,

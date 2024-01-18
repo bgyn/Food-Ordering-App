@@ -5,7 +5,6 @@ import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/cart/controller/cart_controller.dart';
 import 'package:food_app/features/checkout/repository/checkout_repository.dart';
 import 'package:food_app/model/new_order_model.dart';
-import 'package:food_app/model/order_model.dart';
 import 'package:uuid/uuid.dart';
 
 final currentOrderIdProvider = StateProvider<String?>((ref) => null);
@@ -70,11 +69,6 @@ class CheckoutConroller extends StateNotifier<bool> {
       final amount = _checkoutRepository.getAmount(cartItems);
       _ref.read(totalAmountPovider.notifier).update((state) => amount);
     }
-  }
-
-  void updateOrder(BuildContext context, OrderModel order) async {
-    final res = await _checkoutRepository.updateOrder(order);
-    res.fold((l) => showSnackBar(context, l.message), (r) => {});
   }
 
   void updatePaymentStatus(

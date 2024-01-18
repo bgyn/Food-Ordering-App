@@ -54,15 +54,16 @@ class OrdersModel {
 
   factory OrdersModel.fromMap(Map<String, dynamic> map) {
     return OrdersModel(
-        orderId: map['orderId'] as String,
-        userId: map['userId'] as String,
-        orderTotal: map['orderTotal'] as int,
-        orderStatus: map['orderStatus'] as String,
-        createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
-        deliveryMethod: map['deliveryMethod'] as String,
-        productId: List<String>.from(
-          (map['productId'] as List<String>),
-        ),);
+      orderId: map['orderId'] as String,
+      userId: map['userId'] as String,
+      orderTotal: map['orderTotal'] as int,
+      orderStatus: map['orderStatus'] as String,
+      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+      deliveryMethod: map['deliveryMethod'] as String,
+      productId: List<String>.from(
+        (map['productId'] ?? []),
+      ),
+    );
   }
 
   @override
