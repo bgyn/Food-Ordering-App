@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_app/core/constants/payment_constant.dart';
 import 'package:food_app/core/utils/snackbar.dart';
 import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/cart/controller/cart_controller.dart';
 import 'package:food_app/features/checkout/repository/checkout_repository.dart';
-import 'package:food_app/features/checkout/widget/delivery_method_card.dart';
-import 'package:food_app/features/checkout/widget/payment_method_card.dart';
+import 'package:food_app/model/new_order_model.dart';
 import 'package:food_app/model/order_model.dart';
+import 'package:uuid/uuid.dart';
 
 final currentOrderIdProvider = StateProvider<String?>((ref) => null);
 
@@ -16,7 +15,7 @@ final checkoutConrollerProvider = StateNotifierProvider(
       checkoutRepository: ref.read(checkoutRepositoryProvider), ref: ref),
 );
 
-final totalAmountPovider = StateProvider<int?>((ref) => null);
+final totalAmountPovider = StateProvider<int>((ref) => 0);
 
 class CheckoutConroller extends StateNotifier<bool> {
   final CheckoutRepository _checkoutRepository;
@@ -30,23 +29,26 @@ class CheckoutConroller extends StateNotifier<bool> {
 
   void placeOrder({
     required BuildContext context,
-    required List<String> productId,
+    required int orderTotal,
     required String orderStatus,
-    required DateTime timestamp,
-    required int amount,
-    required String uid,
+    required String deliveryMethod,
+    required DateTime createdAt,
   }) async {
     state = true;
     final user = _ref.read(userProvider)!;
-    final OrderModel order = OrderModel(
-      productId: productId,
+    final cartItem = _ref.read(cartProvider)!.item;
+    List<String> productId = <String>[];
+    for (final item in cartItem) {
+      productId.add(item.pid);
+    }
+    final OrdersModel order = OrdersModel(
+      orderId: const Uuid().v4(),
+      userId: user.uid,
+      orderTotal: orderTotal,
       orderStatus: orderStatus,
-      paymentMethod: _ref.read(paymentMethodProvider),
-      deliveryMethod: _ref.read(deliverMethodProvider),
-      paymentStatus: PaymentStatus.pending,
-      timestamp: timestamp,
-      amount: amount,
-      uid: user.uid,
+      deliveryMethod: deliveryMethod,
+      createdAt: createdAt,
+      productId: productId,
     );
     final res = await _checkoutRepository.placeOrder(order: order);
     state = false;
@@ -56,19 +58,18 @@ class CheckoutConroller extends StateNotifier<bool> {
       },
       (r) {
         _ref.read(cartControllerProvider.notifier).clearCart(context: context);
-        _ref
-            .read(currentOrderIdProvider.notifier)
-            .update((state) => order.orderId);
       },
     );
   }
 
-  void getAmount(BuildContext context) async {
-    final user = _ref.read(userProvider)!;
-    final res = await _checkoutRepository.getAmount(user.cart);
-    res.fold((l) => showSnackBar(context, l.message), (r) {
-      _ref.read(totalAmountPovider.notifier).update((state) => r);
-    });
+  void getAmount() {
+    final cartItems = _ref.read(cartProvider)!.item;
+    if (cartItems.isEmpty) {
+      _ref.read(totalAmountPovider.notifier).update((state) => 0);
+    } else {
+      final amount = _checkoutRepository.getAmount(cartItems);
+      _ref.read(totalAmountPovider.notifier).update((state) => amount);
+    }
   }
 
   void updateOrder(BuildContext context, OrderModel order) async {

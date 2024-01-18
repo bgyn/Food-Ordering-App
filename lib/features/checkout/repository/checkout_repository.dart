@@ -4,6 +4,8 @@ import 'package:food_app/core/constants/firebase_constant.dart';
 import 'package:food_app/core/faliure.dart';
 import 'package:food_app/core/provider/firebase_provider.dart';
 import 'package:food_app/core/typedef.dart';
+import 'package:food_app/model/cart_model.dart';
+import 'package:food_app/model/new_order_model.dart';
 import 'package:food_app/model/order_model.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -21,10 +23,7 @@ class CheckoutRepository {
   CollectionReference get _order =>
       _firebaseFirestore.collection(FirebaseConstants.orderCollection);
 
-  CollectionReference get _product =>
-      _firebaseFirestore.collection(FirebaseConstants.productCollection);
-
-  FutureVoid placeOrder({required OrderModel order}) async {
+  FutureVoid placeOrder({required OrdersModel order}) async {
     try {
       return right(_order.doc(order.orderId).set(order.toMap()));
     } on FirebaseException catch (e) {
@@ -36,24 +35,12 @@ class CheckoutRepository {
     }
   }
 
-  FutureEither<int> getAmount(List<String> pid) async {
-    try {
-      int totalamount = 0;
-      for (final element in pid) {
-        DocumentSnapshot productSnapshot = await _product.doc(element).get();
-        if (productSnapshot.exists) {
-          int price = productSnapshot['price'];
-          totalamount += price;
-        } else {
-          throw '$pid product missing';
-        }
-      }
-      return right(totalamount);
-    } on FirebaseException catch (e) {
-      throw e.message!;
-    } catch (e) {
-      return left(Faliure(e.toString()));
+  int getAmount(List<CartItem> items) {
+    int totalamount = 0;
+    for (final item in items) {
+      totalamount += (item.price * item.quantity);
     }
+    return totalamount;
   }
 
   FutureVoid updateOrder(OrderModel order) async {

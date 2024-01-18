@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/utils/snackbar.dart';
 import 'package:food_app/features/cart/repository/cart_repository.dart';
+import 'package:food_app/features/checkout/controller/checkout_controller.dart';
 import 'package:food_app/model/cart_model.dart';
 
 final cartControllerProvider = StateNotifierProvider((ref) => CartController(
@@ -28,12 +29,13 @@ class CartController extends StateNotifier<bool> {
     cart = cart.copyWith(
       item: cart.item.where((element) => element.pid != pid).toList(),
     );
-    state = false;
     final res = await _cartRepository.deleteFromCart(cart);
+    state = false;
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) {
         _ref.read(cartProvider.notifier).update((state) => cart);
+        _ref.read(checkoutConrollerProvider.notifier).getAmount();
         showSnackBar(context, 'Deleted From cart');
       },
     );
@@ -49,6 +51,7 @@ class CartController extends StateNotifier<bool> {
       (l) => showSnackBar(context, l.message),
       (r) {
         _ref.read(cartProvider.notifier).update((state) => cart);
+        _ref.read(checkoutConrollerProvider.notifier).getAmount();
       },
     );
   }
@@ -72,12 +75,13 @@ class CartController extends StateNotifier<bool> {
         item: cart.item + [cartItem],
       );
     }
-    state = false;
     final res = await _cartRepository.addTocart(cart);
+    state = false;
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) {
         _ref.read(cartProvider.notifier).update((state) => cart);
+        _ref.read(checkoutConrollerProvider.notifier).getAmount();
         showSnackBar(context, 'Added to cart');
       },
     );
@@ -94,11 +98,14 @@ class CartController extends StateNotifier<bool> {
     List<CartItem> updatedItem = List.from(cart.item);
     updatedItem[index] = updatedItem[index].copyWith(quantity: quantity);
     cart = cart.copyWith(item: updatedItem);
-    state = false;
     final res = await _cartRepository.updateProductQuantity(cart);
+    state = false;
     res.fold(
       (l) => showSnackBar(context, l.message),
-      (r) => _ref.read(cartProvider.notifier).update((state) => cart),
+      (r) {
+        _ref.read(cartProvider.notifier).update((state) => cart);
+        _ref.read(checkoutConrollerProvider.notifier).getAmount();
+      },
     );
   }
 

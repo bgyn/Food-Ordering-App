@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/loader.dart';
 import 'package:food_app/core/constants/payment_constant.dart';
-import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/checkout/controller/checkout_controller.dart';
 import 'package:food_app/features/checkout/widget/delivery_method_card.dart';
 import 'package:food_app/features/checkout/widget/payment_method_card.dart';
@@ -17,12 +16,6 @@ class CheckoutPayment extends ConsumerStatefulWidget {
 }
 
 class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
-  @override
-  void initState() {
-    ref.read(checkoutConrollerProvider.notifier).getAmount(context);
-    super.initState();
-  }
-
   void payWithEsewa(
     BuildContext context,
     WidgetRef ref,
@@ -41,11 +34,10 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
   void placeOrder(BuildContext context, WidgetRef ref) {
     ref.read(checkoutConrollerProvider.notifier).placeOrder(
           context: context,
-          productId: ref.read(userProvider)!.cart,
-          orderStatus: 'Processing',
-          timestamp: DateTime.now(),
-          amount: ref.read(totalAmountPovider)!,
-          uid: ref.read(userProvider)!.uid,
+          orderTotal: ref.read(totalAmountPovider)!,
+          orderStatus: 'processing',
+          deliveryMethod: ref.read(deliverMethodProvider),
+          createdAt: DateTime.now(),
         );
   }
 
@@ -107,7 +99,7 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
                       Consumer(builder: (context, ref, child) {
                         final totalAmount = ref.watch(totalAmountPovider);
                         return Text(
-                          'Rs. ${totalAmount.toString()}',
+                          'Rs. $totalAmount',
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
                                     color: Colors.black,
@@ -122,12 +114,12 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
                   ),
                   InkWell(
                     onTap: () {
-                      final paymentMethod = ref.read(paymentMethodProvider);
                       placeOrder(context, ref);
-                      if (paymentMethod == PaymentMethod.esewa) {
-                        payWithEsewa(context, ref,
-                            ref.read(totalAmountPovider)!, 'Product');
-                      } else {}
+                      // final paymentMethod = ref.read(paymentMethodProvider);
+                      // if (paymentMethod == PaymentMethod.esewa) {
+                      //   payWithEsewa(context, ref,
+                      //       ref.read(totalAmountPovider)!, 'Product');
+                      // } else {}
                     },
                     child: Container(
                       width: double.infinity,

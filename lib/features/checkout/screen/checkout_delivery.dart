@@ -14,12 +14,6 @@ class CheckoutDelivery extends ConsumerStatefulWidget {
 }
 
 class _CheckoutDeliveryState extends ConsumerState<CheckoutDelivery> {
-  @override
-  void initState() {
-    ref.read(checkoutConrollerProvider.notifier).getAmount(context);
-    super.initState();
-  }
-
   void navigateToCheckoutPayment(BuildContext context) {
     Routemaster.of(context).push('/checkout-delivery/checkout-payment');
   }
