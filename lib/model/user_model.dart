@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class UserModel {
   final String uid;
   final String name;
@@ -7,7 +5,6 @@ class UserModel {
   final String address;
   final String phoneNo;
   String? profilePic;
-  final List<String> cart;
   UserModel({
     required this.uid,
     required this.name,
@@ -15,7 +12,6 @@ class UserModel {
     required this.address,
     required this.phoneNo,
     this.profilePic,
-    required this.cart,
   });
 
   UserModel copyWith({
@@ -25,7 +21,6 @@ class UserModel {
     String? address,
     String? phoneNo,
     String? profilePic,
-    List<String>? cart,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -34,7 +29,6 @@ class UserModel {
       address: address ?? this.address,
       phoneNo: phoneNo ?? this.phoneNo,
       profilePic: profilePic ?? this.profilePic,
-      cart: cart ?? this.cart,
     );
   }
 
@@ -46,26 +40,23 @@ class UserModel {
       'address': address,
       'phoneNo': phoneNo,
       'profilePic': profilePic,
-      'cart': cart,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-        uid: map['uid'] ?? '',
-        name: map['name'] ?? '',
-        email: map['email'] ?? '',
-        address: map['address'] ?? '',
-        phoneNo: map['phoneNo'] ?? '',
-        profilePic: map['profilePic'],
-        cart: List<String>.from(
-          (map['cart'] ?? []),
-        ));
+      uid: map['uid'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      address: map['address'] ?? '',
+      phoneNo: map['phoneNo'] ?? '',
+      profilePic: map['profilePic'],
+    );
   }
 
   @override
   String toString() {
-    return 'UserModle(uid: $uid, name: $name, email: $email, address: $address, phoneNo: $phoneNo, profilePic: $profilePic, cart: $cart)';
+    return 'UserModle(uid: $uid, name: $name, email: $email, address: $address, phoneNo: $phoneNo, profilePic: $profilePic)';
   }
 
   @override
@@ -77,8 +68,7 @@ class UserModel {
         other.email == email &&
         other.address == address &&
         other.phoneNo == phoneNo &&
-        other.profilePic == profilePic &&
-        listEquals(other.cart, cart);
+        other.profilePic == profilePic;
   }
 
   @override
@@ -88,7 +78,6 @@ class UserModel {
         email.hashCode ^
         address.hashCode ^
         phoneNo.hashCode ^
-        profilePic.hashCode ^
-        cart.hashCode;
+        profilePic.hashCode;
   }
 }

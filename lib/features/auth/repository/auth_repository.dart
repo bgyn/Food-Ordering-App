@@ -58,7 +58,6 @@ class AuthRepository {
           address: 'Untitled',
           phoneNo: credential.user!.phoneNumber ?? 'Untitled',
           profilePic: null,
-          cart: [],
         );
         await _user.doc(credential.user!.uid).set(userModel.toMap());
       } else {

@@ -62,7 +62,7 @@ class PaymentRepsitory {
   //   var response = await callVerificationApi(result);
   //   if (response.statusCode == 200) {
   //     var map = {'data': response.data};
-  //     final sucResponse = EsewaPaymentSuccessResponse.fromJson(map);
+  //     final sucResponse = EsewaPaymentSuccessResponse.fromJson(map as <>);
   //     debugPrint("Response Code => ${sucResponse.data}");
   //     if (sucResponse.data[0].transactionDetails.status == 'COMPLETE') {
   //      //TODO Handle Txn Verification Success
