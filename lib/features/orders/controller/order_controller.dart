@@ -10,6 +10,11 @@ final getUserOrderProvider = StreamProvider.family((ref, String uid) {
   return orderController.getUserOrder(uid);
 });
 
+final getUserDeliveredOrderProvider = StreamProvider.family((ref, String uid) {
+  final orderController = ref.watch(orderControllerProvider.notifier);
+  return orderController.getUserDelivererdOrder(uid);
+});
+
 class OrderController extends StateNotifier<bool> {
   final OrderRepository _orderRepository;
   OrderController({required OrderRepository orderRepository})
@@ -18,5 +23,9 @@ class OrderController extends StateNotifier<bool> {
 
   Stream<List<OrdersModel>> getUserOrder(String uid) {
     return _orderRepository.getUserOrders(uid);
+  }
+
+  Stream<List<OrdersModel>> getUserDelivererdOrder(String uid) {
+    return _orderRepository.getUserDeliveredOrder(uid);
   }
 }

@@ -19,12 +19,30 @@ class OrderRepository {
       _firebaseFirestore.collection(FirebaseConstants.orderCollection);
 
   Stream<List<OrdersModel>> getUserOrders(String uid) {
-    return _order.where('userId', isEqualTo: uid).snapshots().map(
+    return _order
+        .where('userId', isEqualTo: uid)
+        .where('orderStatus', isNotEqualTo: 'delivered')
+        .snapshots()
+        .map(
       (event) {
         return event.docs
             .map((e) => OrdersModel.fromMap(e.data() as Map<String, dynamic>))
             .toList();
       },
     );
+  }
+
+  Stream<List<OrdersModel>> getUserDeliveredOrder(String uid) {
+    return _order
+        .where('userId', isEqualTo: uid)
+        .where('orderStatus', isEqualTo: 'delivered')
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => OrdersModel.fromMap(e.data() as Map<String, dynamic>),
+              )
+              .toList(),
+        );
   }
 }
