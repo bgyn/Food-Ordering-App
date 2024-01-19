@@ -6,6 +6,7 @@ import 'package:food_app/features/checkout/controller/checkout_controller.dart';
 import 'package:food_app/features/checkout/widget/delivery_method_card.dart';
 import 'package:food_app/features/checkout/widget/payment_method_card.dart';
 import 'package:food_app/features/payment/controller/payment_controller.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
 class CheckoutPayment extends ConsumerStatefulWidget {
@@ -115,14 +116,15 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
                   ),
                   InkWell(
                     onTap: () {
-                      final price = ref.read(totalAmountPovider);
+                      // final price = ref.read(totalAmountPovider);
                       final orderId = const Uuid().v4();
-                      placeOrder(context, ref, orderId);
                       final paymentMethod = ref.read(paymentMethodProvider);
+                      placeOrder(context, ref, orderId);
                       if (paymentMethod == PaymentMethod.esewa) {
-                        payWithEsewa(
-                            context, ref, price, 'Food Product', orderId);
+                        // payWithEsewa(
+                        //     context, ref, price, 'Food Product', orderId);
                       } else {}
+                      Routemaster.of(context).replace('/');
                     },
                     child: Container(
                       width: double.infinity,
