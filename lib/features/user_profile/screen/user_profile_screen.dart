@@ -83,7 +83,9 @@ class UserProfileScreen extends ConsumerWidget {
                                       imageUrl: user!.profilePic!,
                                       fit: BoxFit.cover,
                                       placeholder: (context, url) =>
-                                          const CircularProgressIndicator(),
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
                                       errorWidget: (context, url, error) =>
                                           const Icon(Icons.error),
                                     ),
