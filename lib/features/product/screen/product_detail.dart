@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_app/core/common/error_text.dart';
 import 'package:food_app/core/common/loader.dart';
+import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/cart/controller/cart_controller.dart';
+import 'package:food_app/features/favourite/controller/favourite_controller.dart';
 import 'package:food_app/features/product/controller/product_controller.dart';
 
 class ProductDetail extends ConsumerWidget {
@@ -25,15 +27,36 @@ class ProductDetail extends ConsumerWidget {
         );
   }
 
+  void favourite({
+    required WidgetRef ref,
+    required BuildContext context,
+    required String uid,
+    required String pid,
+  }) {
+    ref
+        .read(favouriteControllerProvider.notifier)
+        .updateFavourite(context, uid, pid);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.favorite_outline),
-          )
+          Consumer(builder: (context, ref, child) {
+            final isContain = ref.watch(userFavouriteProvider);
+            return IconButton(
+              onPressed: () => favourite(
+                ref: ref,
+                context: context,
+                uid: ref.read(userProvider)!.uid,
+                pid: _pid,
+              ),
+              icon: isContain!.pid.contains(_pid)
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_outline),
+            );
+          })
         ],
       ),
       body: ref.watch(getProductByIdProvider(_pid)).when(
@@ -139,7 +162,9 @@ class ProductDetail extends ConsumerWidget {
               );
             },
             error: (error, errorStack) {
-              return ErrorText(text: error.toString());
+              return ErrorText(
+                text: error.toString(),
+              );
             },
             loading: () => const Loader(),
           ),

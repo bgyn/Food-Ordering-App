@@ -5,6 +5,7 @@ import 'package:food_app/core/common/error_text.dart';
 import 'package:food_app/core/common/loader.dart';
 import 'package:food_app/features/auth/controller/auth_controller.dart';
 import 'package:food_app/features/cart/controller/cart_controller.dart';
+import 'package:food_app/features/favourite/controller/favourite_controller.dart';
 import 'package:food_app/firebase_options.dart';
 import 'package:food_app/model/user_model.dart';
 import 'package:food_app/router.dart';
@@ -34,6 +35,9 @@ class _MyAppState extends ConsumerState<MyApp> {
   UserModel? userModel;
   Future<UserModel?> getData(WidgetRef ref, String uid) async {
     ref.read(cartControllerProvider.notifier).createCart(context, uid);
+    ref
+        .read(favouriteControllerProvider.notifier)
+        .intializeFavourite(context, uid);
     userModel =
         await ref.watch(authControllerProvider.notifier).getUserData(uid).first;
     ref.read(userProvider.notifier).update((state) => userModel);
