@@ -132,6 +132,7 @@ class ProductDetail extends ConsumerWidget {
                                   color: Colors.grey.shade700, fontSize: 18),
                         ),
                       ),
+                      const Spacer(),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: SizedBox(
