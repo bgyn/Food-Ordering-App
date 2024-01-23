@@ -116,13 +116,13 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
                   ),
                   InkWell(
                     onTap: () {
-                      // final price = ref.read(totalAmountPovider);
+                      final price = ref.read(totalAmountPovider);
                       final orderId = const Uuid().v4();
                       final paymentMethod = ref.read(paymentMethodProvider);
                       placeOrder(context, ref, orderId);
                       if (paymentMethod == PaymentMethod.esewa) {
-                        // payWithEsewa(
-                        //     context, ref, price, 'Food Product', orderId);
+                        payWithEsewa(
+                            context, ref, price, 'Food Product', orderId);
                       } else {}
                       Routemaster.of(context).replace('/');
                     },
