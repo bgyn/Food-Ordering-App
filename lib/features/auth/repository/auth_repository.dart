@@ -64,11 +64,13 @@ class AuthRepository {
         return left(Faliure('Email is already taken'));
       }
       return right(userModel);
-    } on FirebaseException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        throw e.message!;
+        return left(Faliure("Email already in use"));
+      } else if (e.code == 'weak-password') {
+        return left(Faliure("Weak password"));
       } else {
-        throw e.message!;
+        return left(Faliure(e.message!));
       }
     } catch (e) {
       return left(Faliure(e.toString()));
@@ -89,13 +91,13 @@ class AuthRepository {
         userModel = await getUserData(_firebaseAuth.currentUser!.uid).first;
       }
       return right(userModel);
-    } on FirebaseException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        throw e.message!;
+        return left(Faliure('User not found'));
       } else if (e.code == 'wrong-password') {
-        throw e.message!;
+        return left(Faliure("Wrong Password"));
       } else {
-        throw e.message!;
+        return left(Faliure(e.message!));
       }
     } catch (e) {
       return left(Faliure(e.toString()));
