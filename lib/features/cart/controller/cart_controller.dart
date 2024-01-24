@@ -113,7 +113,7 @@ class CartController extends StateNotifier<bool> {
     return _cartRepository.getUserCart(uid);
   }
 
-  void createCart(BuildContext context, String uid) async {
+  void initializeCart(BuildContext context, String uid) async {
     final cart = await _cartRepository.createCart(uid: uid);
     cart.fold((l) => showSnackBar(context, l.message),
         (r) => _ref.read(cartProvider.notifier).update((state) => r));

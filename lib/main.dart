@@ -39,7 +39,7 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   UserModel? userModel;
   Future<UserModel?> getData(WidgetRef ref, String uid) async {
-    ref.read(cartControllerProvider.notifier).createCart(context, uid);
+    ref.read(cartControllerProvider.notifier).initializeCart(context, uid);
     ref
         .read(favouriteControllerProvider.notifier)
         .intializeFavourite(context, uid);
