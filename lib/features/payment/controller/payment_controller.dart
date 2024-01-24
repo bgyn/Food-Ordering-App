@@ -43,7 +43,7 @@ class PaymentController extends StateNotifier<bool> {
     res.fold((l) {
       showSnackBar(context, l.toString());
     }, (r) {
-      Routemaster.of(context).pop();
+      Routemaster.of(context).push('/payment-successfull');
     });
   }
 }

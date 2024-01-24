@@ -43,6 +43,10 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
         );
   }
 
+  void navigateToOrderConfirmation(BuildContext context, int price) {
+    Routemaster.of(context).push('/order-confirmation/$price');
+  }
+
   @override
   Widget build(BuildContext context) {
     final loading = ref.watch(checkoutConrollerProvider);
@@ -123,8 +127,10 @@ class _CheckoutDeliveryState extends ConsumerState<CheckoutPayment> {
                       if (paymentMethod == PaymentMethod.esewa) {
                         payWithEsewa(
                             context, ref, price, 'Food Product', orderId);
-                      } else {}
-                      Routemaster.of(context).replace('/');
+                      } else {
+                        navigateToOrderConfirmation(context, price);
+                      }
+                      // Routemaster.of(context).replace('/');
                     },
                     child: Container(
                       width: double.infinity,

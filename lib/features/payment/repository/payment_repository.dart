@@ -52,7 +52,7 @@ class PaymentRepsitory {
           throw data;
         },
       );
-      return right("Payment Successful");
+      return right('Payment Successfull');
     } catch (e) {
       return left(Faliure(e.toString()));
     }
@@ -73,7 +73,7 @@ class PaymentRepsitory {
   //     //TODO Handle Txn Verification Failure
   //   }
   // }
-  
+
   FutureVoid initializePayment(PaymentModel paymentModel) async {
     try {
       return right(
@@ -87,5 +87,4 @@ class PaymentRepsitory {
 
   CollectionReference get _payment =>
       _firebaseFirestore.collection(FirebaseConstants.paymentCollection);
-
 }

@@ -5,7 +5,9 @@ import 'package:food_app/features/auth/screen/login_screen.dart';
 import 'package:food_app/features/checkout/screen/checkout_delivery.dart';
 import 'package:food_app/features/checkout/screen/checkout_payment.dart';
 import 'package:food_app/features/home/screen/bottom_nav.dart';
+import 'package:food_app/features/orders/screen/order_confirmation.dart';
 import 'package:food_app/features/orders/screen/order_screen.dart';
+import 'package:food_app/features/payment/screen/payment_successfull.dart';
 import 'package:food_app/features/product/screen/product_detail.dart';
 import 'package:food_app/features/product/screen/see_more.dart';
 import 'package:food_app/features/user_profile/screen/edit_user_profile_screen.dart';
@@ -58,5 +60,12 @@ final logedInRoute = RouteMap(
     '/orders/:uid': (route) => MaterialPage(
           child: OrderScreen(uid: route.pathParameters['uid']!),
         ),
+    '/payment-successfull': (route) => const MaterialPage(
+          child: PaymentSuccessful(),
+        ),
+    '/order-confirmation/:price': (route) => MaterialPage(
+            child: OrderConfirmation(
+          price: route.pathParameters['price']!,
+        ))
   },
 );
