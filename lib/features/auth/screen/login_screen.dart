@@ -41,7 +41,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         context: context);
   }
 
-  void navigateToForgotPasscodeScreen() {
+  void navigateToForgotPasscodeScreen() { 
     Routemaster.of(context).push('/reset-passcode');
   }
 
@@ -58,7 +58,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -79,17 +79,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           border: Border(
                             bottom: _index == 0
                                 ? BorderSide(
-                                    width: 1.5,
+                                    width: 2,
                                     color: Theme.of(context).primaryColor)
                                 : const BorderSide(color: Colors.transparent),
                           ),
                         ),
                         child: Text(
                           'Login',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(color: Colors.black),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
                         ),
                       ),
                     ),
@@ -106,17 +107,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           border: Border(
                             bottom: _index == 1
                                 ? BorderSide(
-                                    width: 1.5,
+                                    width: 2,
                                     color: Theme.of(context).primaryColor)
                                 : const BorderSide(color: Colors.transparent),
                           ),
                         ),
                         child: Text(
                           'Sign-up',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(color: Colors.black),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
                         ),
                       ),
                     ),
