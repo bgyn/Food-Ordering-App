@@ -22,8 +22,9 @@ class ProductCard extends ConsumerWidget {
         margin: const EdgeInsets.symmetric(horizontal: 15),
         width: width * 0.6,
         child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
           elevation: 2,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -46,6 +47,7 @@ class ProductCard extends ConsumerWidget {
               ),
               Text(
                 _product.name,
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Colors.black,
                     fontSize: 24,
